@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int veri;
+    struct Node* sonraki;
+};
+
+struct Node* bas = NULL;
+struct Node* son = NULL;
+
+void kuyrukEkle(int deger) {
+    struct Node* yeniDugum = (struct Node*)malloc(sizeof(struct Node));
+    yeniDugum->veri = deger;
+    yeniDugum->sonraki = NULL;
+    if (bas == NULL) {
+        bas = son = yeniDugum;
+    } else {
+        son->sonraki = yeniDugum;
+        son = yeniDugum;
+    }
+    printf("Eleman kuyruğa eklendi: %d\n", deger);
+}
+
+void kuyrukCikar() {
+    if (bas == NULL) {
+        printf("Kuyruk bos.\n");
+    } else {
+        struct Node* temp = bas;
+        bas = bas->sonraki;
+        printf("cikan eleman: %d\n", temp->veri);
+        free(temp);
+    }
+}
+
+void kuyrukGoster() {
+    if (bas == NULL) {
+        printf("Kuyruk bos.\n");
+    } else {
+        struct Node* temp = bas;
+        printf("Kuyruktaki elemanlar: ");
+        while (temp != NULL) {
+            printf("%d ", temp->veri);
+            temp = temp->sonraki;
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int secim, deger;
+
+    while (1) {
+        printf("\nKuyruk İşlemleri:\n");
+        printf("1. Eleman Ekle\n");
+        printf("2. Eleman cikar\n");
+        printf("3. Kuyruktaki Elemanlari Goster\n");
+        printf("4. cikis\n");
+        printf("Seciminizi yapın: ");
+        scanf("%d", &secim);
+
+        switch (secim) {
+            case 1:
+                printf("Eklemek istediginiz elemani girin: ");
+                scanf("%d", &deger);
+                kuyrukEkle(deger);
+                break;
+            case 2:
+                kuyrukCikar();
+                break;
+            case 3:
+                kuyrukGoster();
+                break;
+            case 4:
+                printf("Programdan cikiliyor...\n");
+                exit(0);
+            default:
+                printf("Gecersiz secim!\n");
+        }
+    }
+
+    return 0;
+}
